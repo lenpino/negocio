@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="negocio" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<non-jta-data-source>java:comp/env/jdbc/perfilDS</non-jta-data-source>
+		<class>cl.mycompany.perfilamiento.model.Rol</class>
+		<class>cl.mycompany.perfilamiento.model.PaisEmpresa</class>
+		<class>cl.mycompany.perfilamiento.model.Holding</class>
+		<class>cl.mycompany.perfilamiento.model.Pais</class>
+		<class>cl.mycompany.perfilamiento.model.Aplicacion</class>
+		<class>cl.mycompany.perfilamiento.model.UsuarioRol</class>
+		<class>cl.mycompany.perfilamiento.model.Unidad</class>
+		<class>cl.mycompany.perfilamiento.model.Perfil</class>
+		<class>cl.mycompany.perfilamiento.model.Usuario</class>
+		<class>cl.mycompany.perfilamiento.model.UsuarioUnidad</class>
+		<class>cl.mycompany.perfilamiento.model.Funcion</class>
+		<class>cl.mycompany.perfilamiento.model.AppFuncion</class>
+		<class>cl.mycompany.perfilamiento.model.Estado</class>
+		<class>cl.mycompany.perfilamiento.model.PerfilFuncion</class>
+		<class>cl.mycompany.perfilamiento.model.Empresa</class>
+		<class>cl.mycompany.perfilamiento.model.EmpresaApp</class>
+		<class>cl.altair.modelo.portal.Registro</class>
+		<properties>
+			<property name="eclipselink.session.customizer"	value="cl.altair.perfilamiento.control.JPAEclipseLinkSessionCustomizer"/>
+			<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+			<property name="eclipselink.logging.level" value="FINE"/>
+		</properties>
+	</persistence-unit>
+	
+	<persistence-unit name="servel" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<non-jta-data-source>java:comp/env/jdbc/servelDS</non-jta-data-source>
+		<class>cl.altair.servel.model.Persona</class>
+		<properties>
+			<property name="eclipselink.session.customizer"	value="cl.altair.perfilamiento.control.JPAEclipseLinkSessionCustomizer" />
+			<property name="eclipselink.target-database"	value="org.eclipse.persistence.platform.database.PostgreSQLPlatform" />
+			<property name="eclipselink.logging.level" value="FINE"/>
+		</properties>
+	</persistence-unit>
+	
+</persistence>
