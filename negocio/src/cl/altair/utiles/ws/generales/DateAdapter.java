@@ -1,6 +1,7 @@
 package cl.altair.utiles.ws.generales;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
  
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -11,7 +12,10 @@ public class DateAdapter extends XmlAdapter<String, Date>{
  
     @Override
     public String marshal(Date date) throws Exception {
-        return dateFormat.format(date);
+    	if(date != null)
+    		return dateFormat.format(date);
+    	else 
+    		return dateFormat.format(Calendar.getInstance().getTime());
     }
  
     @Override

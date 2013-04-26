@@ -12,12 +12,16 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Registro entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "registro", schema = "public")
+@XmlRootElement(name = "registro")
 public class Registro implements java.io.Serializable {
 
 	// Fields
@@ -106,6 +110,7 @@ public class Registro implements java.io.Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="registro_id_seq")
     @SequenceGenerator(name="registro_id_seq", allocationSize=1)
 	@Column(name = "id", unique = true, nullable = false)
+	@XmlTransient
 	public Integer getId() {
 		return this.id;
 	}
@@ -115,6 +120,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "rut")
+	@XmlTransient
 	public Integer getRut() {
 		return this.rut;
 	}
@@ -124,6 +130,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "dv", length = 1)
+	@XmlTransient
 	public String getDv() {
 		return this.dv;
 	}
@@ -133,6 +140,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "nombres")
+	@XmlTransient
 	public String getNombres() {
 		return this.nombres;
 	}
@@ -142,6 +150,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "apellido", length = 100)
+	@XmlTransient
 	public String getApellido() {
 		return this.apellido;
 	}
@@ -151,6 +160,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "apellido_materno", length = 100)
+	@XmlTransient
 	public String getApellidoMaterno() {
 		return this.apellidoMaterno;
 	}
@@ -160,6 +170,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "email", nullable = false, length = 100)
+	@XmlTransient
 	public String getEmail() {
 		return this.email;
 	}
@@ -169,6 +180,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "telefono", length = 100)
+	@XmlTransient
 	public String getTelefono() {
 		return this.telefono;
 	}
@@ -178,6 +190,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "rut_empresa")
+	@XmlTransient
 	public Integer getRutEmpresa() {
 		return this.rutEmpresa;
 	}
@@ -187,6 +200,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "dv_empresa", length = 1)
+	@XmlTransient
 	public String getDvEmpresa() {
 		return this.dvEmpresa;
 	}
@@ -196,6 +210,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "giro")
+	@XmlTransient
 	public String getGiro() {
 		return this.giro;
 	}
@@ -205,6 +220,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "razon_social")
+	@XmlTransient
 	public String getRazonSocial() {
 		return this.razonSocial;
 	}
@@ -214,6 +230,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "direccion")
+	@XmlTransient
 	public String getDireccion() {
 		return this.direccion;
 	}
@@ -223,6 +240,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "comuna")
+	@XmlTransient
 	public Integer getComuna() {
 		return this.comuna;
 	}
@@ -232,6 +250,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "ciudad", length = 100)
+	@XmlTransient
 	public String getCiudad() {
 		return this.ciudad;
 	}
@@ -241,6 +260,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "codigo_auditoria", nullable = false)
+	@XmlElement(name = "refid")
 	public Long getCodigoAuditoria() {
 		return this.codigoAuditoria;
 	}
@@ -250,6 +270,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "fecha_registro", nullable = false, length = 29)
+	@XmlTransient
 	public Timestamp getFechaRegistro() {
 		return this.fechaRegistro;
 	}
@@ -259,6 +280,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "tipo", length = 15)
+	@XmlTransient
 	public String getTipo() {
 		return this.tipo;
 	}
@@ -268,6 +290,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "estado", length = 20)
+	@XmlTransient
 	public String getEstado() {
 		return this.estado;
 	}
@@ -277,6 +300,7 @@ public class Registro implements java.io.Serializable {
 	}
 
 	@Column(name = "fecha_ultima_actualizacion", length = 29)
+	@XmlTransient
 	public Timestamp getFechaUltimaActualizacion() {
 		return this.fechaUltimaActualizacion;
 	}
@@ -297,11 +321,13 @@ public class Registro implements java.io.Serializable {
 	 */
 	@Column(name = "fecha_nacimiento")
 	@Temporal(TemporalType.DATE) 
+	@XmlTransient
 	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 	
 	@Column(name = "clave")
+	@XmlElement(name="ref")
 	public String getClave() {
 		return clave;
 	}

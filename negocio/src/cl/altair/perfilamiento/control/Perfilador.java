@@ -20,11 +20,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
+import cl.altair.modelo.portal.Registro;
+import cl.altair.modelo.portal.RegistroDAO;
 import cl.altair.perfilamiento.model.dao.*;
 import cl.altair.utiles.seguridad.Certificados;
+import cl.altair.utiles.ws.generales.MsgError;
 import cl.altair.utiles.ws.perfilamiento.PerfilWrapper;
 import cl.mycompany.perfilamiento.model.*;
 
+import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.spi.resource.Singleton;
 @Singleton
 @Produces("application/xml")
@@ -235,6 +239,38 @@ public class Perfilador {
 		return null;		
 	}
 
+	/**
+	 * @param email: El email del usuario
+	 * 	Un objeto JPA con la definicion del usuario y los datos de este segun su "login"
+	 * @return Response
+	 * 	XML con los datos de clave y numero de auditoria para identificar en forma unica al cliente
+	 */
+	@SuppressWarnings({ "unused" })
+	@GET
+	@Path("/cliente/{email}")
+	public Response getIDCliente(@PathParam("email") String login){
+		EntityManager em = emf.createEntityManager();
+		RegistroDAO rdao = new RegistroDAO();
+		try{	
+			List<Registro> listaRegistros = rdao.findByProperty("email", login);
+			if(listaRegistros.isEmpty()){
+				MsgError msgError = new MsgError();
+				msgError.setMensaje("NO EXISTE EL CORREO ELECTRONICO");
+				final GenericEntity <MsgError> entity = new GenericEntity<MsgError>(msgError) { };
+				return Response.ok().entity(entity).build();
+			}
+			else{
+				Registro elRegistro = listaRegistros.get(0);
+				final GenericEntity <Registro> entity = new GenericEntity<Registro>(elRegistro) { };
+				return Response.ok().entity(entity).build();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static String hashPassword(String password){
 		java.security.MessageDigest m;
 		try {

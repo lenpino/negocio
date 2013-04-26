@@ -2,6 +2,10 @@ package cl.mycompany.perfilamiento.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import cl.altair.utiles.ws.generales.TimestampAdapter;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -13,6 +17,7 @@ import java.util.List;
  * 
  */
 @Entity
+@XmlRootElement(name = "usuario")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -129,6 +134,7 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
+	@XmlJavaTypeAdapter (TimestampAdapter.class)
 	public Timestamp getFechaIncorporacion() {
 		return this.fechaIncorporacion;
 	}
@@ -137,6 +143,7 @@ public class Usuario implements Serializable {
 		this.fechaIncorporacion = fechaIncorporacion;
 	}
 
+	@Temporal(TemporalType.DATE)
 	public Date getFechaNacimiento() {
 		return this.fechaNacimiento;
 	}

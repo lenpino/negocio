@@ -2,6 +2,10 @@ package cl.mycompany.perfilamiento.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
+
+import com.sun.xml.bind.CycleRecoverable;
+
 import java.util.List;
 
 
@@ -10,7 +14,7 @@ import java.util.List;
  * 
  */
 @Entity
-public class Rol implements Serializable {
+public class Rol implements Serializable, CycleRecoverable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,6 +31,7 @@ public class Rol implements Serializable {
 	public Rol() {
 	}
 
+	@XmlTransient
 	public Integer getId() {
 		return this.id;
 	}
@@ -42,7 +47,8 @@ public class Rol implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
+	
+	@XmlTransient
 	public List<UsuarioRol> getUsuarioRols() {
 		return this.usuarioRols;
 	}
@@ -50,5 +56,8 @@ public class Rol implements Serializable {
 	public void setUsuarioRols(List<UsuarioRol> usuarioRols) {
 		this.usuarioRols = usuarioRols;
 	}
-
+    public Object onCycleDetected(Context cntxt) {
+	    System.out.println("CycleRecoverable.onCycleDetected # ".concat(this.toString()));
+	    return this;
+    }
 }

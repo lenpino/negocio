@@ -12,24 +12,24 @@ import cl.mycompany.perfilamiento.model.Empresa;
 import cl.mycompany.perfilamiento.model.UsuarioRol;
 
 
-@XmlRootElement(name="perfilAcepta")
+@XmlRootElement(name="perfil")
 public class PerfilWrapper {
 	private HashMap<UsuarioRol, HashMap<Empresa, Vector<Aplicacion>>> elPerfil = null;
-	private String rut;
-	@XmlAttribute(name="rut")
+	private String email;
+	@XmlAttribute(name="email")
 	public String getRut() {
-		return rut;
+		return email;
 	}
 
-	public void setRut(String rut) {
-		this.rut = rut;
+	public void setRut(String email) {
+		this.email = email;
 	}
 
 	public PerfilWrapper(){}
 	
-	public PerfilWrapper(HashMap<UsuarioRol, HashMap<Empresa, Vector<Aplicacion>>> arg0, String elRut){
+	public PerfilWrapper(HashMap<UsuarioRol, HashMap<Empresa, Vector<Aplicacion>>> arg0, String elEmail){
 		this.elPerfil = arg0;
-		this.rut = elRut;
+		this.email = elEmail;
 	}
 	
 	@XmlJavaTypeAdapter(PerfilAdapter.class)

@@ -2,6 +2,12 @@ package cl.mycompany.perfilamiento.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import com.sun.xml.bind.CycleRecoverable;
+
+
+
 import java.util.List;
 
 
@@ -10,7 +16,8 @@ import java.util.List;
  * 
  */
 @Entity
-public class Aplicacion implements Serializable {
+@XmlRootElement(name = "aplicacion")
+public class Aplicacion implements Serializable, CycleRecoverable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -37,7 +44,8 @@ public class Aplicacion implements Serializable {
         this.id = id;
         this.nombre = nombre;
     }
-
+    
+	@XmlTransient
 	public Integer getId() {
 		return this.id;
 	}
@@ -54,6 +62,7 @@ public class Aplicacion implements Serializable {
 		this.nombre = nombre;
 	}
 
+	@XmlTransient
 	public String getWebroot() {
 		return this.webroot;
 	}
@@ -62,6 +71,7 @@ public class Aplicacion implements Serializable {
 		this.webroot = webroot;
 	}
 	
+	@XmlTransient
 	public String getInicio() {
 		return this.inicio;
 	}
@@ -70,6 +80,7 @@ public class Aplicacion implements Serializable {
 		this.inicio = inicio;
 	}
 
+	@XmlTransient
 	public List<AppFuncion> getAppFuncions() {
 		return this.appFuncions;
 	}
@@ -78,6 +89,7 @@ public class Aplicacion implements Serializable {
 		this.appFuncions = appFuncions;
 	}
 
+	@XmlTransient
 	public List<EmpresaApp> getEmpresaApps() {
 		return this.empresaApps;
 	}
@@ -85,5 +97,10 @@ public class Aplicacion implements Serializable {
 	public void setEmpresaApps(List<EmpresaApp> empresaApps) {
 		this.empresaApps = empresaApps;
 	}
+	
+    public Object onCycleDetected(Context cntxt) {
+	    System.out.println("CycleRecoverable.onCycleDetected # ".concat(this.toString()));
+	    return this;
+    }
 
 }
