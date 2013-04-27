@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.xml.bind.annotation.XmlTransient;
+
+import cl.altair.modelo.portal.Programa;
+
 import com.sun.xml.bind.CycleRecoverable;
 
 
@@ -41,11 +44,12 @@ public class Empresa  implements java.io.Serializable, CycleRecoverable {
      private Integer rut;
      private String dv;
      private String telefono;
- 	private String estado;
-	private Integer nusuarios;
-	private Set<Unidad> unidads = new HashSet<Unidad>(0);
+ 	 private String estado;
+	 private Integer nusuarios;
+	 private Set<Unidad> unidads = new HashSet<Unidad>(0);
      private Set<PaisEmpresa> paisEmpresas = new HashSet<PaisEmpresa>(0);
      private Set<EmpresaApp> empresaApps = new HashSet<EmpresaApp>(0);
+     private Set<Programa> programas = new HashSet<Programa>(0);
 
 
     // Constructors
@@ -201,4 +205,14 @@ public class Empresa  implements java.io.Serializable, CycleRecoverable {
 	    System.out.println("CycleRecoverable.onCycleDetected # ".concat(this.toString()));
 	    return this;
     }
+    
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="empresa")
+    @XmlTransient
+	public Set<Programa> getProgramas() {
+		return programas;
+	}
+
+	public void setProgramas(Set<Programa> programas) {
+		this.programas = programas;
+	}
 }

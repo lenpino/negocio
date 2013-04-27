@@ -20,8 +20,8 @@ public class PerfilAdapter extends XmlAdapter<Roles[], HashMap<UsuarioRol, HashM
 		for(UsuarioRol unRol: rols){
 			Roles rolEmp = new Roles();
 			rolEmp.setRol(unRol.getRol().getNombre());
-//			rolEmp.setDesde(unRol.getDesde());
-//			rolEmp.setHasta(unRol.getHasta());
+			rolEmp.setDesde(unRol.getDesde());
+			rolEmp.setHasta(unRol.getHasta());
 			rolEmp.setEmpresa(getEmpresaApps(arg0.get(unRol)));
 			losRoles[i] = rolEmp;
 			i++;

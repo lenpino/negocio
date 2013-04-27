@@ -20,6 +20,7 @@
 		<class>cl.mycompany.perfilamiento.model.Empresa</class>
 		<class>cl.mycompany.perfilamiento.model.EmpresaApp</class>
 		<class>cl.altair.modelo.portal.Registro</class>
+		<class>cl.altair.modelo.portal.Programa</class>
 		<properties>
 			<property name="eclipselink.session.customizer"	value="cl.altair.perfilamiento.control.JPAEclipseLinkSessionCustomizer"/>
 			<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
