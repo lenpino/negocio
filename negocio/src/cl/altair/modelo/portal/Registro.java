@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "registro", schema = "public")
-@XmlRootElement(name = "registro")
 public class Registro implements java.io.Serializable {
 
 	// Fields

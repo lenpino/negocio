@@ -3,9 +3,9 @@ package cl.altair.modelo.portal;
 import java.io.Serializable;
 import java.lang.Integer;
 import java.lang.String;
-import java.math.BigInteger;
 import java.sql.Date;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 
 import cl.mycompany.perfilamiento.model.Empresa;
 
@@ -20,7 +20,7 @@ public class Programa implements Serializable {
 
 	private Integer id;
 	private Date activacion;
-	private BigInteger serial;
+	private Long serial;
 	private String estado;
 	private String version;
 	private Empresa empresa;
@@ -33,6 +33,7 @@ public class Programa implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="programa_id_seq")
     @SequenceGenerator(name="programa_id_seq", allocationSize=1)
 	@Column(name = "id", unique = true, nullable = false)
+	@XmlTransient
 	public Integer getId() {
 		return this.id;
 	}
@@ -42,6 +43,7 @@ public class Programa implements Serializable {
 	}  
 	
 	@Column(name = "activacion")
+	@XmlTransient
 	public Date getActivacion() {
 		return this.activacion;
 	}
@@ -51,15 +53,16 @@ public class Programa implements Serializable {
 	}
 	
 	@Column(name = "serial")
-	public BigInteger getSerial() {
+	public Long getSerial() {
 		return this.serial;
 	}
 
-	public void setSerial(BigInteger serial) {
+	public void setSerial(Long serial) {
 		this.serial = serial;
 	}  
 	
 	@Column(name = "estado")
+	@XmlTransient
 	public String getEstado() {
 		return this.estado;
 	}
@@ -78,7 +81,8 @@ public class Programa implements Serializable {
 	}   
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@PrimaryKeyJoinColumn(name="id")
+	@JoinColumn(name="idempresa")
+	@XmlTransient
 	public Empresa getEmpresa() {
 		return empresa;
 	}

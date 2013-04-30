@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import cl.altair.perfilamiento.model.dao.*;
 import cl.mycompany.perfilamiento.model.*;
 
-@XmlRootElement(name = "perfilacepta")
+@XmlRootElement(name = "perfil")
 public class PerfilAltair extends Profile {
 	
 	private HashMap<Rol, HashMap<Empresa, Vector<Aplicacion>>> elPerfil = null;

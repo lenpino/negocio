@@ -183,7 +183,7 @@ public class ProgramaDAO  {
 		) {
 					EntityManagerHelper.log("finding all Programa instances", Level.INFO, null);
 			try {
-			final String queryString = "select model from Programa model order by model.nombre";
+			final String queryString = "select model from Programa model order by model.activacion";
 								Query query = getEntityManager().createQuery(queryString);
 					return query.getResultList();
 		} catch (RuntimeException re) {

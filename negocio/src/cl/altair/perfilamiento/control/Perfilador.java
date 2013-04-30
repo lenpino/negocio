@@ -1,13 +1,16 @@
 package cl.altair.perfilamiento.control;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,15 +23,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
+import cl.altair.modelo.portal.Programa;
 import cl.altair.modelo.portal.Registro;
 import cl.altair.modelo.portal.RegistroDAO;
 import cl.altair.perfilamiento.model.dao.*;
 import cl.altair.utiles.seguridad.Certificados;
 import cl.altair.utiles.ws.generales.MsgError;
 import cl.altair.utiles.ws.perfilamiento.PerfilWrapper;
+import cl.altair.utiles.ws.perfilamiento.RegClienteWrapper;
 import cl.mycompany.perfilamiento.model.*;
 
-import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.spi.resource.Singleton;
 @Singleton
 @Produces("application/xml")
@@ -39,6 +43,7 @@ public class Perfilador {
 	 * @param args
 	 */
 	protected PerfilAltair perfil = new PerfilAltair();
+	private final static Logger LOGGER = Logger.getLogger(Perfilador.class.getName());
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("negocio");
 	
 	public static void main(String[] args) {
@@ -139,6 +144,7 @@ public class Perfilador {
 	 */
 	@SuppressWarnings({ "unused" })
 	public PerfilAltair getPerfil(Usuario elUsuario){
+		LOGGER.info("Obteniendo la informacion desde el perfil del usuario");
 		UsuarioDAO userDAO = new UsuarioDAO();
 		perfil.setUsuario(elUsuario);
 		try {
@@ -260,9 +266,34 @@ public class Perfilador {
 				return Response.ok().entity(entity).build();
 			}
 			else{
+				ProgramaDAO pdao = new ProgramaDAO();
+				SecureRandom random = new SecureRandom();
+				java.util.Date utilDate = new java.util.Date();
+				long lnMilisegundos = utilDate.getTime();
+				java.sql.Timestamp fechaActual = new java.sql.Timestamp(lnMilisegundos);
+				Long serial = Math.abs(new BigInteger(130, random).longValue());
 				Registro elRegistro = listaRegistros.get(0);
-				final GenericEntity <Registro> entity = new GenericEntity<Registro>(elRegistro) { };
-				return Response.ok().entity(entity).build();
+				EmpresaDAO edao = new EmpresaDAO();
+				LOGGER.fine("Empresa RUT " + elRegistro.getRutEmpresa());
+				Empresa laEmpresa = edao.findByRut(elRegistro.getRutEmpresa()).get(0);
+				LOGGER.fine("Empresa Nombre " + laEmpresa.getNombre());
+				Programa elPrograma = new Programa();
+				elPrograma.setSerial(serial);
+				elPrograma.setVersion("0.2.1");
+				elPrograma.setActivacion(new Date(fechaActual.getTime()));				
+				elPrograma.setEmpresa(laEmpresa);
+				elPrograma.setEstado("activado");
+				LOGGER.info("Grabando el programa en la BD");
+				EntityManagerHelper.beginTransaction();
+				pdao.save(elPrograma);
+				EntityManagerHelper.commit(); 
+				EntityManagerHelper.closeEntityManager(); 
+				RegClienteWrapper reg = new RegClienteWrapper();
+				reg.setPrograma(elPrograma);
+				reg.setRegistro(elRegistro);
+				LOGGER.info("Enviando respuesta al cliente");
+				final GenericEntity <RegClienteWrapper> entity = new GenericEntity<RegClienteWrapper>(reg) { };
+				return Response.ok().entity(entity).build();		
 			}
 
 		} catch (Exception e) {

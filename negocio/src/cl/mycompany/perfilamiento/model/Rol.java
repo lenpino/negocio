@@ -56,6 +56,13 @@ public class Rol implements Serializable, CycleRecoverable {
 	public void setUsuarioRols(List<UsuarioRol> usuarioRols) {
 		this.usuarioRols = usuarioRols;
 	}
+    public boolean equals(Object objetoJPA){
+    	return (objetoJPA instanceof Rol) ? getId().equals(((Rol)objetoJPA).id): super.equals(objetoJPA);
+    }
+    
+    public int hashCode(){
+    	return this.id.hashCode();
+    }
     public Object onCycleDetected(Context cntxt) {
 	    System.out.println("CycleRecoverable.onCycleDetected # ".concat(this.toString()));
 	    return this;

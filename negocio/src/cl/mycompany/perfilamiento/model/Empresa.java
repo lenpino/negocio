@@ -206,7 +206,7 @@ public class Empresa  implements java.io.Serializable, CycleRecoverable {
 	    return this;
     }
     
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="empresa")
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="empresa")
     @XmlTransient
 	public Set<Programa> getProgramas() {
 		return programas;
